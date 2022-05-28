@@ -352,19 +352,34 @@ body {
     margin: 10px 0;
     height: 200px;
     background-color: #0c1a2e;
+    display: flex;
+    flex-wrap: nowrap;
+    color: #fff;
+    box-shadow: 0 0 10px 3px #0e1d32;
 }
 
-.section-more-info {
-
+.si-item-text {
+    width: 60%;
+    padding: 20px;
 }
 
+.si-item-text p:nth-child(1) {
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px #fff;
+    font-family: 'Fugaz One', cursive;
+}
 
+.si-item-text p:nth-child(2) {
+    font-size: 15px;
+    font-family: sans-serif, cursive;
+}
 
+.si-item-img {
+    filter: blur(2px);
+    width: 40%;
+}
 
-
-
-
-
+/* Footer */
 .footer {
     padding: 40px 0;
     background-color: #000;
@@ -448,6 +463,7 @@ body {
     font-family: 'Fugaz One', cursive;
 }
 
+
 .f-description {
     font-weight: 1;
     word-spacing: 5px;
@@ -456,6 +472,7 @@ body {
 .f-l-description{
     font-size: 12px;
     line-height: 20px;
+    width: 80%;
 }
 
 .f-r-description{

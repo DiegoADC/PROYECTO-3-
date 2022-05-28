@@ -1,5 +1,4 @@
 body {
-    overflow-x: hidden;
 }
 
 /* header */
@@ -296,6 +295,7 @@ body {
     font-family: 'Fugaz One', cursive;   
     font-weight: bold;
     position: absolute;
+    text-align: center;
 }
   
 .sj-text:before,.sj-text:after {
@@ -305,7 +305,7 @@ body {
     padding: .8em .3em;
     transform: translateX(-50%) translateY(-50%) rotate(0deg);
     animation: 10s infinite alternate ease-in-out rotar;
-    border: 15px solid #fff;
+    border: 13px solid #fff;
     position: absolute;
     display: block;
     content: '';
@@ -350,7 +350,7 @@ body {
 .si-item {
     width: 80%;
     margin: 10px 0;
-    height: 200px;
+    height: 250px;
     background-color: #0c1a2e;
     display: flex;
     flex-wrap: nowrap;
@@ -400,7 +400,6 @@ body {
 }
 
 .footer-left-container, .footer-right-container {
-    min-width: 400px;
     max-width: 400px;
 }
 

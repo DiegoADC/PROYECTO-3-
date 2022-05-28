@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
     <!-- Styles -->
     <link rel="stylesheet" href="../Styles/normalize.css">
     <link rel="stylesheet" href="../Styles/style.css">
+    <link rel="stylesheet" href="../Styles/stats.css">
     <!-- Font family -->
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fugaz+One&display=swap" rel="stylesheet">
     <!-- Foont Awesome (icons) -->
@@ -21,66 +22,46 @@
             <a href="./index.html" class="hc-title">BUM</a>
         </div>
         <nav class="nav-menu">
-            <a href="#" class="nav-item1"><span> ESTADÍSTICAS </span></a>
-            <a href="#info" class="nav-item2"><span> INFO </span></a>
-            <!-- Header Nav Burger -->
-            <div class="nav-hamburger" >
-                <button id="hamburger" class="">
-                    <span class="hambur-top-line"></span>
-                    <span class="hambur-middle-line"></span>
-                    <span class="hambur-bottom-line"></span>
-                </button>
-            </div>  
+            <a href="../index.html" class="nav-item1"><span> GO BACK </span></a>
         </nav>
-        <div class="h-menu " id="menu">
-            <div class="hm-container">
-                <a class="hm-text" href="#"><span> ESTADÍSTICAS</span></a>
-                <a class="hm-text" href="#info" id="menu-info"><span> INFO</span></a>
-            </div>
-        </div>
     </header> 
 
-    <section class="section">
-        <div class="section-jumb">
-            <div>
-                <div class="sj-img"></div>
-                <div class="sji-black"></div>
-            </div>
-            <div>
-                <div class="sj-text">BUM TRAKER</div>
-            </div>
-        </div>
-        <div class="section-info" id="info">
-            <div class="si-container">
-                <div class="si-item">
-                    <div class="si-item-text">
-                        <p>ANÁLICAS FÁCILES</p>
-                        <p>¡BUM TRAKER rastrea las estadísticas de usuarios de Twitch!</p>
-                    </div>
-                    <img src="./img/task-3.png" class="si-item-img" alt="">
-                </div>
-                <div class="si-item">
-                    <div class="si-item-text">
-                        <p>¡ANÁLISIS SIMPLIFICADO AL ALCANCE DE SU MANO!</p>
-                        <p>Obtenga una comprensión más profunda del crecimiento y las tendencias</p>
-                    </div>
-                    <img src="./img/ebay.png" class="si-item-img" alt="">
-                </div>
-                <div class="si-item">
-                    <div class="si-item-text">
-                        <p>¡LO TENEMOS CUBIERTO!</p>
-                        <p>Siempre buscamos expandir nuestras funciones para brindarles a nuestros usuarios la mejor experiencia posible.</p>
-                    </div>
-                    <img src="./img/srfufi.jpg" class="si-item-img" alt="">
-                </div>
-                <div class="si-item">
-                    <div class="si-item-text">
-                        <p>ACCESO FÁCIL DATOS PÚBLICOS</p>
-                        <p>Busca streamer populares de Twitch que juegan un juego específico</p>
-                    </div>
-                    <img src="./img/task-2.png" class="si-item-img" alt="">
+    <section class="section-t">
+        <div class="st-container">
+            <div class="st-streamer-ofline">
+                <div class="st-text">TWITCH STREAMERS</div>
+                <div class="ofline-streamers-container" id="streamers">
+                    <template id="streamer">
+                        <div class="st-streamer">
+                            <div class="streamer-img-ofline">
+                                <img src="../img/ebay.png" alt="" id="Img">
+                            </div>
+                            <div class="streamer-stats-ofline">
+                                <div class="ss-info-ofline">
+                                    <div class="ss-name-container">
+                                        <div class="s-stats-name">
+                                            <div class="ss-name" id="Name"></div>
+                                            <div class="ss-partner" id="partner">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="ss-views-ofline">
+                                        <span id="viwers"></span>
+                                        <div>Viewers Totales</div>
+                                    </div>
+                                    <div class="ss-desc-ofline"><span id="description"></span> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    
+
                 </div>
             </div>
+
+            
+            
         </div>
     </section>
 

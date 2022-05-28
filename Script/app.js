@@ -1,32 +1,50 @@
-const nav = document.querySelector('#hamburger');
-const menu = document.querySelector('#menu');
-const menuClose = document.getElementById('menu-info')
-// Menu Hamburguesa
-
-nav.addEventListener('click', e =>{
-    nav.classList.toggle('open');
-});
-// Menu lateral
-nav.addEventListener('click', (e) => {
-    menu.classList.toggle('menu-active');
-})
-menuClose.addEventListener('click', (e)=>{
-    menu.classList.remove('menu-active');
-    nav.classList.remove('open');  
-})
-
-
-
+const streamer = document.getElementById('streamers');
+const templateStreamer = document.getElementById('streamer').content;
+const fragment = document.createDocumentFragment();
 
 const fetchData = async () => {
     try {
-        const res = await fetch('https://matrix.sbapis.com/b/youtube/statistics?clientid=cli_6552711e08511188c436a630&token=0c33b7683cb9349dd41d938339a14c472e6ae0e1737ac21b02e2490b00dec290bc6303a5d7f935ec91e5d8251d3fda816339d0809d00fefa664d26404e3ea4fd&history=default&query=SocialBlade');
+        const res = await fetch('https://api.twitch.tv/helix/users?login=ibai&login=elded&login=victorvaldiviaa', {
+            method: "GET",
+            headers: {"Authorization": "Bearer s2t89l66iaso9cr6g0kyin3ovebl0i", "Client-Id": "9evi49kf49azcz9t4si807u6e0sban" }
+
+        });
         const data = await res.json();
-        console.log(data, "data")
+        painInfo(data)
     } catch (error) {
         console.log(error);
     };  
 };
 
-fetchData()
+const painInfo = (data) =>{
 
+    for (let i = 0; i < 3; i++) {
+        let imgP = data.data[i].profile_image_url
+        let nameP = data.data[i].display_name.toUpperCase()
+        let viewerT = data.data[i].view_count.toLocaleString('en-US')
+        let description = data.data[i].description
+        let partnerT = data.data[i].broadcaster_type
+
+        templateStreamer.querySelector('#Img').setAttribute('src', imgP)
+        templateStreamer.querySelector('#Name').textContent = nameP
+        templateStreamer.querySelector('#viwers').textContent = viewerT
+        templateStreamer.querySelector('#description').textContent = description
+
+
+        if(partnerT === "partner"){
+            templateStreamer.querySelector('#partner').innerHTML = `
+            <i class="fa-brands fa-twitch"></i>
+            <p>Partner</p>`
+        }else{
+            templateStreamer.querySelector('#partner').innerHTML = ''
+        }
+        const clone = templateStreamer.cloneNode(true)
+        fragment.appendChild(clone)
+        streamer.appendChild(fragment)
+
+    }
+
+}
+
+
+fetchData()

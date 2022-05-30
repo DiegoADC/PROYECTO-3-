@@ -1,14 +1,13 @@
 const streamer = document.getElementById('streamers');
 const streamerLive = document.getElementById('streamers-live');
-
 const spinner = document.getElementById('spinner');
 const spinnerC = document.getElementById('spinner-contend');
-
 const spinnersLive = document.getElementById('spinnerslive');
 const spinnerLive = document.getElementById('spinnerLive');
-
 const templateOffline = document.getElementById('offline').content;
+const templateOfflinePartner = document.getElementById('offlineP').content;
 const templateLive = document.getElementById('live').content;
+const templateLivePartner = document.getElementById('livePartner').content;
 const fragment = document.createDocumentFragment();
 const urlLive = 'https://api.twitch.tv/helix/streams?user_login=';
 const token = { method: "GET", headers: {"Authorization": "Bearer s2t89l66iaso9cr6g0kyin3ovebl0i", "Client-Id": "9evi49kf49azcz9t4si807u6e0sban" }};
@@ -54,43 +53,33 @@ const checkOffline = (offline)=>{
     fetchOffline(link);
 };
 
-const checkLive = (live)=>{
-    let linkUser = 'https://api.twitch.tv/helix/users?';
-    let linkStreams = 'https://api.twitch.tv/helix/streams?';
+const checkLive = async(live)=>{
     for (let i = 0; i < live.length; i++) {
-        let name = live[i].streamer;
-        linkUser += `login=${name}&`;
-        linkStreams += `user_login=${name}&`;
+        const streamer = live[i].streamer;
+        try {
+            const linkU= await fetch(`https://api.twitch.tv/helix/users?login=${streamer}`, token);
+            const linkS = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamer}`, token);
+            const dataU = await linkS.json();
+            const dataS = await linkU.json();
+            const linkI = await fetch(`https://api.twitch.tv/helix/games?id=${dataU.data[0].game_id}`, token);
+            const dataI = await linkI.json();
+            const imgData =await dataI.data[0].box_art_url;
+            painLive(dataS,dataU,imgData);
+            spinnersLive.remove("spinner-contend");
+            spinnerLive.remove("spinner");
+        } catch (error) {
+            console.log(error);
+        };  
     }
-    fetchLive(linkUser, linkStreams);
 }
-
-const fetchLive = async (linkUser, linkStreams) => {
-    if(linkUser.length <= 34 && linkStreams.length <= 36){
-        return;
-    }
-    try {
-        const linkS = await fetch(linkUser, token);
-        const linkU = await fetch(linkStreams, token);
-        const dataS = await linkS.json();
-        const dataU = await linkU.json();
-        console.log("dataS", dataS, "dataU", dataU)
-        painLive(dataS,dataU)
-        spinnersLive.classList.remove("spinner-contend");
-        spinnerLive.classList.remove("spinner");
-    } catch (error) {
-        console.log(error);
-    };  
-};
-
 
 const fetchOffline = async (link) => {
     try {
         const res = await fetch(link, token);
         const data = await res.json();
         painOffline(data);
-        spinnerC.classList.remove("spinner-contend");
-        spinner.classList.remove("spinner");
+        spinnerC.remove();
+        spinner.remove();
     } catch (error) {
         console.log(error);
     };  
@@ -98,60 +87,58 @@ const fetchOffline = async (link) => {
 
 const painOffline = (data) =>{
     for (let i = 0; i < data.data.length; i++) {
-        let imgP = data.data[i].profile_image_url;
-        let nameP = data.data[i].display_name.toUpperCase();
-        let viewerT = data.data[i].view_count.toLocaleString('en-US');
-        let description = data.data[i].description;
-        let partnerT = data.data[i].broadcaster_type;
+        const imgP = data.data[i].profile_image_url;
+        const nameP = data.data[i].display_name.toUpperCase();
+        const viewerT = data.data[i].view_count.toLocaleString('en-US');
+        const description = data.data[i].description;
+        const partnerT = data.data[i].broadcaster_type;
+        const url = `https://www.twitch.tv/${nameP}`;
+        let partnerComp = templateOfflinePartner;
 
+        if(partnerT === "affiliate") {
+            partnerComp = templateOffline;
+        };
 
-        templateOffline.querySelector('#Img').setAttribute('src', imgP);
-        templateOffline.querySelector('#Name').textContent = nameP;
-        templateOffline.querySelector('#viwers').textContent = viewerT;
-        templateOffline.querySelector('#description').textContent = description;
-        if(partnerT === "affiliate"){
-            templateOffline.querySelector('#partner').innerHTML = ``;
-        }
+        partnerComp.querySelector('#Img').setAttribute('src', imgP);
+        partnerComp.querySelector('#Name').textContent = nameP;
+        partnerComp.querySelector('#Name').setAttribute('href', url);
+        partnerComp.querySelector('#viwers').textContent = viewerT;
+        partnerComp.querySelector('#description').textContent = description;
 
-        const clone = templateOffline.cloneNode(true);
+        const clone = partnerComp.cloneNode(true);
         fragment.appendChild(clone);
         streamer.appendChild(fragment);
     };
 }
 
-const painLive = (dataS,dataU) =>{
-    console.log(dataS.data.length)
-    console.log(dataS)
+const painLive = (dataS,dataU,imgGame) =>{
     for (let i = 0; i < dataS.data.length; i++) {
-        let imgP = dataS.data[i].profile_image_url;
-        let nameP = dataS.data[i].display_name.toUpperCase();
-        let viewerT = dataS.data[i].view_count.toLocaleString('en-US');
-        let description = dataS.data[i].description;
-        let partnerT = dataS.data[i].broadcaster_type;
+        const imgP = dataS.data[i].profile_image_url;
+        const nameP = dataS.data[i].display_name.toUpperCase();
+        const viewerT = dataS.data[i].view_count.toLocaleString('en-US');
+        const description = dataS.data[i].description;
+        const partnerT = dataS.data[i].broadcaster_type;
+        const viwersL = dataU.data[i].viewer_count.toLocaleString('en-US');
+        const descriptionL = dataU.data[i].title;
+        const url = `https://www.twitch.tv/${nameP}`;
+        let partnerComp = templateLivePartner;
 
-        templateLive.querySelector('#img-live').setAttribute('src', imgP);
-        templateLive.querySelector('#name-live').textContent = nameP;
-        templateLive.querySelector('#viwers-live').textContent = viewerT;
-        templateLive.querySelector('#description-live').textContent = description;
-        if(partnerT === "affiliate"){
-            templateLive.querySelector('#partner-live').innerHTML = ``;
-        }
-        const clone = templateLive.cloneNode(true);
+        const gameImg = imgGame.replace("{width}x{height}", "300x400");
+        if(partnerT === "affiliate") {
+            partnerComp = templateLive;
+        };
+        partnerComp.querySelector('#viwersLive').textContent = viwersL;
+        partnerComp.querySelector('#descriptionLive').textContent = descriptionL;
+        partnerComp.querySelector('#img-live').setAttribute('src', imgP);
+        partnerComp.querySelector('#name-live').textContent = nameP;
+        partnerComp.querySelector('#name-live').setAttribute('href', url);
+        partnerComp.querySelector('#viwers-live').textContent = viewerT;
+        partnerComp.querySelector('#description-live').textContent = description;
+        partnerComp.querySelector('#imgGame').setAttribute('src', gameImg);
+
+        const clone = partnerComp.cloneNode(true);
         fragment.appendChild(clone);
         streamerLive.appendChild(fragment);
     };
 }
 
-
-
-// ibai
-// elded
-// victorvaldivia
-// werlyb
-// thegrefg
-// xokas
-// akim
-// nissaxter
-// auronplay
-// rubius
-// bysTaXx

@@ -7,7 +7,7 @@
 }
 
 .st-container {
-    width: 80%;
+    width: 90%;
     margin: 100px 0;
     color: #2c3e50;
     display: flex;
@@ -15,97 +15,222 @@
     align-items: center;
 }
 
-/* section streamers ofline */
-.st-streamer-ofline{
-    width: 60%;
+.container-streamer-live {
+    width: 100%;
     margin-bottom: 150px;
     border-bottom: 1px solid #2c3e50;
+    
 }
 
-
-
-.st-text{
-    margin-bottom: 30px;
+.streamer-live-text {
+    padding-bottom: 30px;
     font-size: 30px;
     text-shadow: 0 0 10px #fff;
+    text-shadow: 0 5px 10px #2c3e50;
+    border-bottom: 1px solid #2c3e50;
     font-family: 'Fugaz One', cursive;
     text-align: center;
+
 }
 
-/* card streamer */
-
-.st-streamer {
+.live-streamers-container {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+
+/* Card Streamer */
+
+.card-streamer-container {
+    min-width: 350px;
+    max-width: 350px;
     padding: 10px;
-    border-top: 1px solid #2c3e50;
-    background-color: #fff;
-    color: #000;
-    height: 130px;
+    margin: 20px 10px;
+    background-color: #f5f5f5;
+    color: #2c3e50;
 }
 
-/* card info */
-
-.streamer-img-ofline {
-    display: flex;
-    align-items: center;
-    width: 17%;
-}
-
-.streamer-stats-ofline{
-    width: 83%;
-    margin-left: 10px;
+.info-streamer-container {
     display: flex;
 }
 
-.ss-info-ofline {
-    width: 100%;
-    height: 100%;
+.info-img {
+    width: 50%;
+}
+
+.info-container{
+    width: 50%;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
-.ss-name-container {
+.info-container-name {
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: #000;
+}
+
+.info-partner{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.info-partner i:nth-child(1), .info-partner p:nth-child(2){
+    color: #575757;
+    
+}
+
+.info-name {
+    width: 100%;
+    font-size: 20px;
+    padding-left: 10px;
+    display: flex;
+    font-family: 'Fugaz One', cursive;
+
+}
+
+.info-container-viewers {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.info-viewers div:nth-child(1){
+    text-align: center;
+    font-weight: bold;
+}
+
+.info-viewers div:nth-child(2){
+    text-align: center;
+    font-weight: 600;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+.info-streamer-description {
+    padding: 10px 0;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.info-streamer-live {
     height: 40%;
     display: flex;
-    align-items: flex-end;
-    width: min-content;
-    width: 70%;
 }
 
-.s-stats-name {
+.info-live-container {
+    width: 75%;
+}
+
+.live-container {
     display: flex;
+    margin-top: 20px;
 }
 
-.ss-name {
-    font-size: 19px;
-    color: #000;
+.live-circle {
+    width: 23%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle-pulsate {
+    width: 30px;
+    height: 30px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    animation: pulsate2 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulsate2 {
+  100% {
+      box-shadow:
+      0 0 20px #ff0000,
+      0 0 30px #ff0000,
+      0 0 40px #ff0000,
+      0 0 80px #ff0000
+  }
+  
+  0% {
+    box-shadow:
+    0 0 0px #ff0000,
+    0 0 30px #ff0000,
+    0 0 80px #ff0000,
+    0 0 120px #ff0000
+  }
+}
+
+.live-text {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    padding-top: 14px;
+}
+
+.live-text div {
+    color: #ff0000;
     font-family: 'Fugaz One', cursive;
 }
 
-.ss-partner {
-    margin-left: 5px;
-    color: #6c6c6c;
+.live-viewers {
+    width: 47%;
+    padding-right: 20px;
     display: flex;
-    font-family: sans-serif;
-}
-
-.ss-views-ofline{
-    display: flex;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 30%;
-    font-family: sans-serif;
 }
 
-.ss-views-ofline span{
-    color: #3db21c;
+.live-viewers div:nth-child(1) {
+    text-align: center;
     font-weight: bold;
-    text-shadow: 0 0 20px #3db21c;
+
 }
 
-.ss-desc-ofline {
+.live-viewers div:nth-child(2) {
+    font-weight: 600;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+.live-description {
+    margin-top: 25px;
     display: flex;
-    align-items: flex-end;
-    font-family: sans-serif;
-    font-size: 15px;
+}
+
+.info-live-game {
+    width: 25%;
+}
+
+/* Spinner */
+.spinner-contend {
+    width: 100%;
+    display: flex;
+    padding: 100px 0;
+    justify-content: center;
+}
+
+.spinner {
+    border: 10px solid #0000001a;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    box-shadow: -10px 0 50px #0099ffc0;
+    border-left-color: #09f;
+    animation: spin 1s ease infinite;
+}
+  
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

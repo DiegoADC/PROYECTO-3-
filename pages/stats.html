@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fugaz+One&display=swap" rel="stylesheet">
     <!-- Foont Awesome (icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <title>Dashboard</title>
+    <title>STATS</title>
 </head>
 <body>
     <!-- Header -->
@@ -28,40 +28,113 @@
 
     <section class="section-t">
         <div class="st-container">
-            <div class="st-streamer-ofline">
-                <div class="st-text">TWITCH STREAMERS</div>
-                <div class="ofline-streamers-container" id="streamers">
-                    <template id="streamer">
-                        <div class="st-streamer">
-                            <div class="streamer-img-ofline">
-                                <img src="../img/ebay.png" alt="" id="Img">
-                            </div>
-                            <div class="streamer-stats-ofline">
-                                <div class="ss-info-ofline">
-                                    <div class="ss-name-container">
-                                        <div class="s-stats-name">
-                                            <div class="ss-name" id="Name"></div>
-                                            <div class="ss-partner" id="partner">
+            
+            <div class="container-streamer-live">
+                <div class="streamer-live-text">TWITCH STREAMERS</div>
+                <div class="live-streamers-container" id="streamers">
+                    <div class="spinner-contend" id="spinner-contend">
+                        <div class="spinner" id="spinner"></div>
+                    </div>
+                    <template id="offline">
+                        <div class="card-streamer-container">
+                            <div class="info-streamer">
+                                <div class="info-streamer-container">
+                                    <div class="info-img">
+                                        <img id="Img" src="../img/ebay.png" alt="">
+                                    </div>
+                                    <div class="info-container">
+                                        <div class="info-container-name">
+                                            <div class="info-partner" id="partner">
+                                                <i class="fa-brands fa-twitch"></i>
+                                                <p id="partner-live">Partner</p>
+                                            </div>
+                                            <div class="info-name">
+                                                <div id="Name">IBAI</div>
+                                            </div>
+                                        </div>
+                                        <div class="info-container-viewers">
+                                            <div class="info-viewers">
+                                                <div id="viwers">2,342,423</div>
+                                                <div>Total de Viewers</div>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="ss-views-ofline">
-                                        <span id="viwers"></span>
-                                        <div>Viewers Totales</div>
-                                    </div>
-                                    <div class="ss-desc-ofline"><span id="description"></span> </div>
+                                </div>
+                                <div class="info-streamer-description" id="description">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis eveniet quas itaque, ad incidunt tenetur recusandae repudiandae esse expedita atque, quia delectus vitae modi optio eius porro excepturi animi aliquid.
                                 </div>
                             </div>
                         </div>
                     </template>
-                    
-
-                </div>
+                </div>  
             </div>
 
-            
-            
+
+
+
+            <div class="container-streamer-live">
+                <div class="streamer-live-text">TWITCH STREAMERS LIVE </div>
+                <div class="live-streamers-container" id="streamers-live">
+                    <div class="spinner-contend" id="spinnerslive">
+                        <div class="spinner" id="spinnerLive"></div>
+                    </div>
+                    <template id="live">
+                        <div class="card-streamer-container">
+                            <div class="info-streamer">
+                                <div class="info-streamer-container">
+                                    <div class="info-img">
+                                        <img id="img-live" src="../img/ebay.png" alt="">
+                                    </div>
+                                    <div class="info-container">
+                                        <div class="info-container-name">
+                                            <div class="info-partner">
+                                                <i class="fa-brands fa-twitch"></i>
+                                                <p id="partner-live">Partner</p>
+                                            </div>
+                                            <div class="info-name">
+                                                <div id="name-live">IBAI</div>
+                                            </div>
+                                        </div>
+                                        <div class="info-container-viewers">
+                                            <div class="info-viewers">
+                                                <div id="viwers-live">2,342,423</div>
+                                                <div>Total de Viewers</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-streamer-description" id="description-live">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis eveniet quas itaque, ad incidunt tenetur recusandae repudiandae esse expedita atque, quia delectus vitae modi optio eius porro excepturi animi aliquid.
+                                </div>
+                            </div>
+                            
+                            <div class="info-streamer-live">
+                                <div class="info-live-container">
+                                    <div class="live-container">
+                                        <div class="live-circle">
+                                            <div class="circle-pulsate"></div>
+                                        </div>
+                                        <div class="live-text">
+                                            <div>LIVE</div>
+                                        </div>
+                                        <div class="live-viewers">
+                                            <div>234,242,312,</div>
+                                            <div>Viewers Live</div>
+                                        </div>
+                                    </div>
+                                    <div class="live-description">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam voluptas nostrum eveniet quam! Eos, iure quia officiis facere corporis ea inventore alias libero, voluptatem fugiat ipsam fuga deserunt nesciunt minus?
+                                    </div>
+                                </div>
+                                <div class="info-live-game">
+                                    <img src="../img/fornite-twitch.jpg" alt="">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </template>
+                </div>  
+            </div>
         </div>
     </section>
 
@@ -96,6 +169,7 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../Script/app.js"></script>
 </body>
 </html>

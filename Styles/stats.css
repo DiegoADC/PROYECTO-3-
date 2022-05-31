@@ -1,3 +1,8 @@
+.nav-menu a {
+    display: flex;
+}
+
+
 /* section */
 .section-t {
     width: 100%;

@@ -37,20 +37,20 @@ const checkData = async (data) => {
         };
         let live = streamerCheked.filter(streamer=> streamer.live == true);
         let offline = streamerCheked.filter(streamer=> streamer.live == false);
-        checkOffline(offline);
+        upOffline(offline);
         checkLive(live);
     } catch (error) {
         console.log(error);
     };
 };
 
-const checkOffline = (offline)=>{
+const upOffline = (offline)=>{
     let link = "https://api.twitch.tv/helix/users?";
     for (let i = 0; i < offline.length; i++) {
         let name = offline[i].streamer;
         link += `login=${name}&`;
     };
-    fetchOffline(link);
+    checkOffline(link);
 };
 
 const checkLive = async(live)=>{
@@ -73,7 +73,7 @@ const checkLive = async(live)=>{
     }
 }
 
-const fetchOffline = async (link) => {
+const checkOffline = async (link) => {
     try {
         const res = await fetch(link, token);
         const data = await res.json();
@@ -93,10 +93,10 @@ const painOffline = (data) =>{
         const description = data.data[i].description;
         const partnerT = data.data[i].broadcaster_type;
         const url = `https://www.twitch.tv/${nameP}`;
-        let partnerComp = templateOfflinePartner;
+        let partnerComp = templateOffline;
 
         if(partnerT === "affiliate") {
-            partnerComp = templateOffline;
+            partnerComp = templateOfflinePartner;
         };
 
         partnerComp.querySelector('#Img').setAttribute('src', imgP);
@@ -121,11 +121,11 @@ const painLive = (dataS,dataU,imgGame) =>{
         const viwersL = dataU.data[i].viewer_count.toLocaleString('en-US');
         const descriptionL = dataU.data[i].title;
         const url = `https://www.twitch.tv/${nameP}`;
-        let partnerComp = templateLivePartner;
+        let partnerComp = templateLive;
 
         const gameImg = imgGame.replace("{width}x{height}", "300x400");
         if(partnerT === "affiliate") {
-            partnerComp = templateLive;
+            partnerComp = templateLivePartner;
         };
         partnerComp.querySelector('#viwersLive').textContent = viwersL;
         partnerComp.querySelector('#descriptionLive').textContent = descriptionL;

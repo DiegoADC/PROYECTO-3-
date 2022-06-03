@@ -70,10 +70,11 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .info-container-name {
-    height: 50%;
+    height: min-content;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -82,6 +83,7 @@
 
 .info-partner{
     width: 100%;
+    height: 25px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -94,8 +96,8 @@
 
 .info-name {
     width: 100%;
+    height: 30px;
     font-size: 20px;
-    padding-left: 10px;
     display: flex;
     font-family: 'Fugaz One', cursive;
 
@@ -243,4 +245,64 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.container-streamer-chart {
+    width: 100%;
+    border-bottom: 1px solid #2c3e50;
+}
+
+.streamer-container-charts {
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.streamer-chart{
+    width: 800px;
+    background-image: linear-gradient(to right, #0b1c32, #0a192d, #091728, #071323, #05101e);
+}
+
+.streamer-chart-text {
+    padding-top: 20px;
+    font-size: 22px;
+    text-shadow: 0 0 20px #fff;
+    color: #fff;
+    font-family: 'Fugaz One', cursive;
+    text-align: center;
+}
+
+.streamer-chart-top {
+    margin-bottom: 50px;
+}
+
+@media only screen and (max-width: 920px) {
+    .streamer-chart{
+        width: 700px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .streamer-chart{
+        width: 600px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .streamer-chart{
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    .streamer-chart{
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 470px) {
+    .streamer-chart{
+        width: 350px;
+    }
 }

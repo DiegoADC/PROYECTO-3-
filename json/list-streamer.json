@@ -1,72 +1,118 @@
 [
     {
         "streamer": "ibai",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "elded",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "victorvaldiviaa",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "werlyb",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "ElPrimoJoxe",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "thegrefg",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "elxokas",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "akim",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "nissaxter",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "auronplay",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "rubius",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "bysTaXx",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "Fernanfloo",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "MarioTQ",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "Jelty",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "Gemita",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "bytarifaaa",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "Robleis",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "Th3Antonio",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "Josedeodo",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "elyoyalol",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "coscu",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     },{
         "streamer": "PochiPoom",
-        "live": true
+        "live": true,
+        "followers": 0,
+        "viewers": 0
     }
 ]

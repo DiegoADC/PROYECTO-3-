@@ -11,6 +11,7 @@ const templateLivePartner = document.getElementById('livePartner').content;
 const fragment = document.createDocumentFragment();
 const urlLive = 'https://api.twitch.tv/helix/streams?user_login=';
 const token = { method: "GET", headers: {"Authorization": "Bearer s2t89l66iaso9cr6g0kyin3ovebl0i", "Client-Id": "9evi49kf49azcz9t4si807u6e0sban" }};
+let listStreamers
 
 document.addEventListener('DOMContentLoaded', () => {
     streamers();
@@ -20,37 +21,49 @@ const streamers = async ()=> {
     try {
         const res = await fetch('../json/list-streamer.json');
         const data = await res.json();
+        listStreamers = data
         checkData(data);
+        checkDataChart(data)
     } catch (error) {
         console.log(error, "adf");
     };
 };
 
-const checkData = async (data) => {
-    const streamerCheked = data;
+const checkDataChart = async (data)=>{
     try {
-        let total = streamerCheked.length;
-        for (let i = 0; i < total; i++) {
-            let name = streamerCheked[i].streamer;
+        for (let i = 0; i < data.length; i++) {
+            const linkU= await fetch(`https://api.twitch.tv/helix/users?login=${data[i].streamer}`, token);
+            const dataU = await linkU.json();
+            const linkF = await fetch(`https://api.twitch.tv/helix/users/follows?to_id=${dataU.data[0].id}`, token);
+            const dataF = await linkF.json();
+            listStreamers[i].viewers = dataU.data[0].view_count
+            listStreamers[i].followers = dataF.total
+        }
+        let viewers = listStreamers.slice().sort((streamer, otrostreamer) => otrostreamer.viewers - streamer.viewers).slice(0, 10);
+        let followers = listStreamers.slice().sort((streamer, otrostreamer) => otrostreamer.followers - streamer.followers).slice(0, 10);
+        painChartFollowers(followers)
+        painChartViewers(viewers)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+const checkData = async (data) => {
+    try {
+        for (let i = 0; i < data.length; i++) {
+            let name = data[i].streamer;
             name = await axios(urlLive+`${name}`, token);
-            if (name.data.data[0] === undefined) {streamerCheked[i].live = false};  
+            if (name.data.data[0] === undefined) {data[i].live = false};  
         };
-        let live = streamerCheked.filter(streamer=> streamer.live == true);
-        let offline = streamerCheked.filter(streamer=> streamer.live == false);
-        upOffline(offline);
+        let live = data.filter(streamer=> streamer.live == true);
+        let offline = data.filter(streamer=> streamer.live == false);
+        // upOffline(offline);
         checkLive(live);
+        checkOffline(offline);
     } catch (error) {
         console.log(error);
     };
-};
-
-const upOffline = (offline)=>{
-    let link = "https://api.twitch.tv/helix/users?";
-    for (let i = 0; i < offline.length; i++) {
-        let name = offline[i].streamer;
-        link += `login=${name}&`;
-    };
-    checkOffline(link);
 };
 
 const checkLive = async(live)=>{
@@ -63,8 +76,10 @@ const checkLive = async(live)=>{
             const dataS = await linkU.json();
             const linkI = await fetch(`https://api.twitch.tv/helix/games?id=${dataU.data[0].game_id}`, token);
             const dataI = await linkI.json();
+            const linkF = await fetch(`https://api.twitch.tv/helix/users/follows?to_id=${dataS.data[0].id}`, token);
+            const dataF = await linkF.json();
             const imgData =await dataI.data[0].box_art_url;
-            painLive(dataS,dataU,imgData);
+            painLive(dataS,dataU,imgData,dataF);
             spinnersLive.remove("spinner-contend");
             spinnerLive.remove("spinner");
         } catch (error) {
@@ -73,37 +88,37 @@ const checkLive = async(live)=>{
     }
 }
 
-const checkOffline = async (link) => {
-    try {
-        const res = await fetch(link, token);
-        const data = await res.json();
-        painOffline(data);
-        spinnerC.remove();
-        spinner.remove();
-    } catch (error) {
-        console.log(error);
-    };  
-};
+const checkOffline = async(offline)=>{
+    for (let i = 0; i < offline.length; i++) {
+        const streamer = offline[i].streamer;
+        try {
+            const linkU= await fetch(`https://api.twitch.tv/helix/users?login=${streamer}`, token);
+            const dataU = await linkU.json();
+            const linkF = await fetch(`https://api.twitch.tv/helix/users/follows?to_id=${dataU.data[0].id}`, token);
+            const dataF = await linkF.json();
+            painOffline(dataU,dataF);
+            spinnerC.remove();
+            spinner.remove();
+        } catch (error) {
+            console.log(error);
+        };  
+    }
+}
 
-const painOffline = (data) =>{
-    for (let i = 0; i < data.data.length; i++) {
-        const imgP = data.data[i].profile_image_url;
-        const nameP = data.data[i].display_name.toUpperCase();
-        const viewerT = data.data[i].view_count.toLocaleString('en-US');
-        const description = data.data[i].description;
-        const partnerT = data.data[i].broadcaster_type;
-        const url = `https://www.twitch.tv/${nameP}`;
+const painOffline = (dataU,dataF) =>{
+    for (let i = 0; i < dataU.data.length; i++) {
+        const url = `https://www.twitch.tv/${dataU.data[i].display_name.toUpperCase()}`;
         let partnerComp = templateOffline;
-
-        if(partnerT === "affiliate") {
+        if(dataU.data[i].broadcaster_type === "affiliate") {
             partnerComp = templateOfflinePartner;
         };
 
-        partnerComp.querySelector('#Img').setAttribute('src', imgP);
-        partnerComp.querySelector('#Name').textContent = nameP;
+        partnerComp.querySelector('#Img').setAttribute('src', dataU.data[i].profile_image_url);
+        partnerComp.querySelector('#Name').textContent = dataU.data[i].display_name.toUpperCase();
         partnerComp.querySelector('#Name').setAttribute('href', url);
-        partnerComp.querySelector('#viwers').textContent = viewerT;
-        partnerComp.querySelector('#description').textContent = description;
+        partnerComp.querySelector('#followers').textContent = dataF.total.toLocaleString('en-US');
+        partnerComp.querySelector('#viwers').textContent = dataU.data[i].view_count.toLocaleString('en-US');
+        partnerComp.querySelector('#description').textContent = dataU.data[i].description;;
 
         const clone = partnerComp.cloneNode(true);
         fragment.appendChild(clone);
@@ -111,34 +126,163 @@ const painOffline = (data) =>{
     };
 }
 
-const painLive = (dataS,dataU,imgGame) =>{
+const painLive = (dataS,dataU,imgGame,dataF) =>{
     for (let i = 0; i < dataS.data.length; i++) {
-        const imgP = dataS.data[i].profile_image_url;
-        const nameP = dataS.data[i].display_name.toUpperCase();
-        const viewerT = dataS.data[i].view_count.toLocaleString('en-US');
-        const description = dataS.data[i].description;
-        const partnerT = dataS.data[i].broadcaster_type;
-        const viwersL = dataU.data[i].viewer_count.toLocaleString('en-US');
-        const descriptionL = dataU.data[i].title;
-        const url = `https://www.twitch.tv/${nameP}`;
+        const url = `https://www.twitch.tv/${dataS.data[i].display_name.toUpperCase()}`;
         let partnerComp = templateLive;
-
         const gameImg = imgGame.replace("{width}x{height}", "300x400");
-        if(partnerT === "affiliate") {
+        if(dataS.data[i].broadcaster_type === "affiliate") {
             partnerComp = templateLivePartner;
         };
-        partnerComp.querySelector('#viwersLive').textContent = viwersL;
-        partnerComp.querySelector('#descriptionLive').textContent = descriptionL;
-        partnerComp.querySelector('#img-live').setAttribute('src', imgP);
-        partnerComp.querySelector('#name-live').textContent = nameP;
+        partnerComp.querySelector('#img-live').setAttribute('src', dataS.data[i].profile_image_url);
+        partnerComp.querySelector('#name-live').textContent = dataS.data[i].display_name.toUpperCase();
         partnerComp.querySelector('#name-live').setAttribute('href', url);
-        partnerComp.querySelector('#viwers-live').textContent = viewerT;
-        partnerComp.querySelector('#description-live').textContent = description;
+        partnerComp.querySelector('#followers').textContent = dataF.total.toLocaleString('en-US');
+        partnerComp.querySelector('#viwers-live').textContent = dataS.data[i].view_count.toLocaleString('en-US');
+        partnerComp.querySelector('#description-live').textContent = dataS.data[i].description;;
+        partnerComp.querySelector('#viwersLive').textContent = dataU.data[i].viewer_count.toLocaleString('en-US');;
+        partnerComp.querySelector('#descriptionLive').textContent = dataU.data[i].title;
         partnerComp.querySelector('#imgGame').setAttribute('src', gameImg);
 
         const clone = partnerComp.cloneNode(true);
         fragment.appendChild(clone);
         streamerLive.appendChild(fragment);
     };
-}
+};
 
+const painChartViewers = (viewers)=>{
+    let labelsViewers = [];
+    let dataViewers = [];
+    for (let i = 0; i < 10; i++) {
+        labelsViewers.push(viewers[i].streamer.toUpperCase());
+        dataViewers.push(viewers[i].viewers);
+    };
+    const data = {
+      labels: labelsViewers,
+      datasets: [{
+        label: "",
+        data: dataViewers,
+        backgroundColor: [
+            "#9147ff"
+        ],
+        borderWidth: 2
+      }],
+      
+    
+    };
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#888'
+                    },
+                },
+                y: {
+                    ticks: {
+                        callback: function(value){
+                            const valueLegend = this.getLabelForValue(value);
+                            const valueLegendRep = valueLegend.replaceAll(',', '');
+                            if (valueLegendRep.length === 1) {
+                                return valueLegendRep;
+                            }
+                            if (valueLegendRep.length === 10) {
+                                return valueLegendRep.substr(0,3) + 'M';
+                            }
+                            if (valueLegendRep.length === 11) {
+                                return valueLegendRep.substr(0,4) + 'M';
+                            }
+                        },
+                        color: '#888'
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        boxWidth: 0
+                    }
+                },
+          }
+        },
+      };
+      
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+    myChart
+};
+
+const painChartFollowers = (followers)=>{
+    let labelsFollowers = [];
+    let dataFollowers = [];
+    for (let i = 0; i < 10; i++) {
+        labelsFollowers.push(followers[i].streamer.toUpperCase());
+        dataFollowers.push(followers[i].followers);
+    };
+    const data = {
+      labels: labelsFollowers,
+      datasets: [{
+        label: '',
+        data: dataFollowers,
+        fill: false,
+        borderColor: '#9147ff',
+        tension: 0.3
+      }]
+    };
+    
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#888'
+                    },
+                },
+                y: {
+                    ticks: {
+                        callback: function(value){
+                            const valueLegend = this.getLabelForValue(value);
+                            const valueLegendRep = valueLegend.replaceAll(',', '');
+                            if (valueLegendRep.length === 9) {
+                                return valueLegendRep.substr(0,2) + 'M';
+                            };
+                            if (valueLegendRep.length === 10) {
+                                return valueLegendRep.substr(0,3) + 'M';
+                            };
+                        },
+                        color: '#888'
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        boxWidth: 0
+                    }
+                }
+            },
+        }
+      };
+    
+      
+    const myChart = new Chart(
+        document.getElementById('myChart2'),
+        config
+      );
+    myChart
+};
+  
+
+
+
+
+  
+
+// myChart

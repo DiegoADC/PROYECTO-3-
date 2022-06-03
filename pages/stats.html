@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../Styles/stats.css">
     <!-- Font family -->
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fugaz+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <!-- Foont Awesome (icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>STATS</title>
@@ -54,6 +55,12 @@
                                                 <a id="Name" target="_blank">IBAI</a>
                                             </div>
                                         </div>
+                                        <div class="info-container-followers">
+                                            <div class="info-viewers">
+                                                <div id="followers">2,342,423</div>
+                                                <div>Followers</div>
+                                            </div>
+                                        </div>
                                         <div class="info-container-viewers">
                                             <div class="info-viewers">
                                                 <div id="viwers">2,342,423</div>
@@ -80,6 +87,12 @@
                                             <div class="info-partner" id="partner"></div>
                                             <div class="info-name">
                                                 <a id="Name" target="_blank">IBAI</a>
+                                            </div>
+                                        </div>
+                                        <div class="info-container-followers">
+                                            <div class="info-viewers">
+                                                <div id="followers">2,342,423</div>
+                                                <div>Followers</div>
                                             </div>
                                         </div>
                                         <div class="info-container-viewers">
@@ -123,6 +136,12 @@
                                             </div>
                                             <div class="info-name">
                                                 <a href="dataa" target="_blank" id="name-live">IBAI</a>
+                                            </div>
+                                        </div>
+                                        <div class="info-container-followers">
+                                            <div class="info-viewers">
+                                                <div id="followers">2,342,423</div>
+                                                <div>Followers</div>
                                             </div>
                                         </div>
                                         <div class="info-container-viewers">
@@ -178,6 +197,12 @@
                                                 <a href="dataa" target="_blank" id="name-live">IBAI</a>
                                             </div>
                                         </div>
+                                        <div class="info-container-followers">
+                                            <div class="info-viewers">
+                                                <div id="followers">2,342,423</div>
+                                                <div>Followers</div>
+                                            </div>
+                                        </div>
                                         <div class="info-container-viewers">
                                             <div class="info-viewers">
                                                 <div id="viwers-live">2,342,423</div>
@@ -218,6 +243,21 @@
                     </template>
                 </div>  
             </div>
+
+            <div class="container-streamer-chart">
+                <div class="streamer-live-text">TWITCH TOPS</div>
+                <div class="streamer-container-charts">
+
+                    <div class="streamer-chart streamer-chart-top">
+                        <div class="streamer-chart-text">TOP 10 VIEWERS</div>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="streamer-chart">
+                        <div class="streamer-chart-text">TOP 10 FOLLOWERS</div>
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -253,6 +293,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../Script/app.js"></script>
 </body>
 </html>

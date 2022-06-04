@@ -1,6 +1,7 @@
 const nav = document.querySelector('#hamburger');
 const menu = document.querySelector('#menu');
 const menuClose = document.getElementById('menu-info')
+
 // Menu Hamburguesa
 
 nav.addEventListener('click', e =>{
@@ -14,8 +15,3 @@ menuClose.addEventListener('click', (e)=>{
     menu.classList.remove('menu-active');
     nav.classList.remove('open');  
 })
-
-
-
-
-

@@ -1,29 +1,30 @@
+import {linkJson} from './links.js';
+import {urlGames, urlFollows, urlUsers, urlStreams, urlTwitch, token} from './links.js';
+// import {token} from './links.js';
+
 const streamer = document.getElementById('streamers');
 const streamerLive = document.getElementById('streamers-live');
 const spinner = document.getElementById('spinner');
 const spinnerC = document.getElementById('spinner-contend');
 const spinnersLive = document.getElementById('spinnerslive');
 const spinnerLive = document.getElementById('spinnerLive');
+
 const templateOffline = document.getElementById('offline').content;
 const templateOfflinePartner = document.getElementById('offlineP').content;
 const templateLive = document.getElementById('live').content;
 const templateLivePartner = document.getElementById('livePartner').content;
+
 const fragment = document.createDocumentFragment();
-const urlLive = 'https://api.twitch.tv/helix/streams?user_login=';
-const token = { method: "GET", headers: {"Authorization": "Bearer s2t89l66iaso9cr6g0kyin3ovebl0i", "Client-Id": "9evi49kf49azcz9t4si807u6e0sban" }};
-let listStreamers
+let listStreamers;
 
-document.addEventListener('DOMContentLoaded', () => {
-    streamers();
-});
 
-const streamers = async ()=> {
+export const streamers = async ()=> {
     try {
-        const res = await fetch('../json/list-streamer.json');
+        const res = await fetch(linkJson);
         const data = await res.json();
         listStreamers = data
         checkData(data);
-        checkDataChart(data)
+        checkDataChart(data);
     } catch (error) {
         console.log(error, "adf");
     };
@@ -32,9 +33,9 @@ const streamers = async ()=> {
 const checkDataChart = async (data)=>{
     try {
         for (let i = 0; i < data.length; i++) {
-            const linkU= await fetch(`https://api.twitch.tv/helix/users?login=${data[i].streamer}`, token);
+            const linkU= await fetch(urlUsers + data[i].streamer, token);
             const dataU = await linkU.json();
-            const linkF = await fetch(`https://api.twitch.tv/helix/users/follows?to_id=${dataU.data[0].id}`, token);
+            const linkF = await fetch(urlFollows + dataU.data[0].id, token);
             const dataF = await linkF.json();
             listStreamers[i].viewers = dataU.data[0].view_count
             listStreamers[i].followers = dataF.total
@@ -52,13 +53,12 @@ const checkDataChart = async (data)=>{
 const checkData = async (data) => {
     try {
         for (let i = 0; i < data.length; i++) {
-            let name = data[i].streamer;
-            name = await axios(urlLive+`${name}`, token);
-            if (name.data.data[0] === undefined) {data[i].live = false};  
+            const check = await fetch(urlStreams + data[i].streamer, token);
+            const dataCheck = await check.json();
+            if (dataCheck.data[0] === undefined) {data[i].live = false};  
         };
         let live = data.filter(streamer=> streamer.live == true);
         let offline = data.filter(streamer=> streamer.live == false);
-        // upOffline(offline);
         checkLive(live);
         checkOffline(offline);
     } catch (error) {
@@ -68,15 +68,14 @@ const checkData = async (data) => {
 
 const checkLive = async(live)=>{
     for (let i = 0; i < live.length; i++) {
-        const streamer = live[i].streamer;
         try {
-            const linkU= await fetch(`https://api.twitch.tv/helix/users?login=${streamer}`, token);
-            const linkS = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamer}`, token);
+            const linkU= await fetch(urlUsers + live[i].streamer, token);
+            const linkS = await fetch(urlStreams + live[i].streamer, token);
             const dataU = await linkS.json();
             const dataS = await linkU.json();
-            const linkI = await fetch(`https://api.twitch.tv/helix/games?id=${dataU.data[0].game_id}`, token);
+            const linkI = await fetch(urlGames + dataU.data[0].game_id, token);
             const dataI = await linkI.json();
-            const linkF = await fetch(`https://api.twitch.tv/helix/users/follows?to_id=${dataS.data[0].id}`, token);
+            const linkF = await fetch(urlFollows + dataS.data[0].id, token);
             const dataF = await linkF.json();
             const imgData =await dataI.data[0].box_art_url;
             painLive(dataS,dataU,imgData,dataF);
@@ -92,9 +91,9 @@ const checkOffline = async(offline)=>{
     for (let i = 0; i < offline.length; i++) {
         const streamer = offline[i].streamer;
         try {
-            const linkU= await fetch(`https://api.twitch.tv/helix/users?login=${streamer}`, token);
+            const linkU= await fetch(urlUsers + streamer, token);
             const dataU = await linkU.json();
-            const linkF = await fetch(`https://api.twitch.tv/helix/users/follows?to_id=${dataU.data[0].id}`, token);
+            const linkF = await fetch(urlFollows + dataU.data[0].id, token);
             const dataF = await linkF.json();
             painOffline(dataU,dataF);
             spinnerC.remove();
@@ -107,7 +106,7 @@ const checkOffline = async(offline)=>{
 
 const painOffline = (dataU,dataF) =>{
     for (let i = 0; i < dataU.data.length; i++) {
-        const url = `https://www.twitch.tv/${dataU.data[i].display_name.toUpperCase()}`;
+        const url = urlTwitch + dataU.data[i].display_name.toUpperCase();
         let partnerComp = templateOffline;
         if(dataU.data[i].broadcaster_type === "affiliate") {
             partnerComp = templateOfflinePartner;
@@ -128,7 +127,7 @@ const painOffline = (dataU,dataF) =>{
 
 const painLive = (dataS,dataU,imgGame,dataF) =>{
     for (let i = 0; i < dataS.data.length; i++) {
-        const url = `https://www.twitch.tv/${dataS.data[i].display_name.toUpperCase()}`;
+        const url = urlTwitch + dataS.data[i].display_name.toUpperCase();
         let partnerComp = templateLive;
         const gameImg = imgGame.replace("{width}x{height}", "300x400");
         if(dataS.data[i].broadcaster_type === "affiliate") {
@@ -271,18 +270,12 @@ const painChartFollowers = (followers)=>{
         }
       };
     
-      
     const myChart = new Chart(
         document.getElementById('myChart2'),
         config
       );
     myChart
 };
-  
 
 
 
-
-  
-
-// myChart
